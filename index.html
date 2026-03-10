@@ -1,166 +1,153 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>A Surprise For You ❤️</title>
+<title>Birthday Surprise ❤️</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial;
-            text-align: center;
-            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-            overflow: hidden;
-        }
+<style>
 
-        h1 {
-            margin-top: 40px;
-            color: white;
-        }
+body{
+margin:0;
+font-family:Arial;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+height:100vh;
+background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+overflow:hidden;
+text-align:center;
+}
 
-        #card {
-            position: relative;
-            width: 320px;
-            height: 220px;
-            margin: 40px auto;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
+h1{
+color:white;
+margin-bottom:30px;
+}
 
-        #message {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            background: white;
-            color: #ff4b6e;
-            font-size: 20px;
-            padding: 20px;
-        }
+#card{
+position:relative;
+width:320px;
+height:200px;
+border-radius:20px;
+overflow:hidden;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+background:white;
+}
 
-        canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
+#message{
+position:absolute;
+width:100%;
+height:100%;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+color:#ff4b6e;
+font-size:20px;
+padding:20px;
+box-sizing:border-box;
+}
 
-        .heart {
-            position: absolute;
-            color: white;
-            font-size: 20px;
-            animation: float 6s linear infinite;
-        }
+canvas{
+position:absolute;
+top:0;
+left:0;
+}
 
-        @keyframes float {
-            0% {
-                transform: translateY(100vh)
-            }
+.heart{
+position:absolute;
+font-size:20px;
+animation:float 6s linear infinite;
+opacity:0.6;
+}
 
-            100% {
-                transform: translateY(-10vh)
-            }
-        }
-    </style>
+@keyframes float{
+0%{transform:translateY(100vh)}
+100%{transform:translateY(-10vh)}
+}
+
+</style>
 </head>
 
 <body>
 
-    <h1>Scratch Your Birthday Surprise 🎉</h1>
+<h1>Scratch Your Birthday Surprise 🎉</h1>
 
-    <div id="card">
+<div id="card">
 
-        <div id="message">
-            <h2>Happy Birthday ❤️</h2>
-            <p>
-                You make my life brighter every day.<br><br>
-                I love you more than words can say.
-            </p>
-        </div>
+<div id="message">
+<h2>Happy Birthday ❤️</h2>
+<p>
+You make my life brighter every day.<br><br>
+I love you more than words can say.
+</p>
+</div>
 
-        <canvas id="scratch"></canvas>
+<canvas id="scratch"></canvas>
 
-    </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
 
-    <script>
+const canvas=document.getElementById("scratch");
+const ctx=canvas.getContext("2d");
 
-        const canvas = document.getElementById("scratch");
-        const ctx = canvas.getContext("2d");
+canvas.width=320;
+canvas.height=200;
 
-        canvas.width = 320;
-        canvas.height = 220;
+ctx.fillStyle="#c0c0c0";
+ctx.fillRect(0,0,canvas.width,canvas.height);
 
-        ctx.fillStyle = "#c0c0c0";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+ctx.globalCompositeOperation="destination-out";
 
-        ctx.globalCompositeOperation = "destination-out";
+let drawing=false;
 
-        let drawing = false;
-        let scratched = 0;
+function scratch(e){
 
-        function scratch(e) {
+if(!drawing) return;
 
-            if (!drawing) return;
+let rect=canvas.getBoundingClientRect();
 
-            let rect = canvas.getBoundingClientRect();
+let x=(e.touches?e.touches[0].clientX:e.clientX)-rect.left;
+let y=(e.touches?e.touches[0].clientY:e.clientY)-rect.top;
 
-            let x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
-            let y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+ctx.beginPath();
+ctx.arc(x,y,18,0,Math.PI*2);
+ctx.fill();
 
-            ctx.beginPath();
-            ctx.arc(x, y, 18, 0, Math.PI * 2);
-            ctx.fill();
+}
 
-            scratched++;
+canvas.addEventListener("mousedown",()=>drawing=true);
+canvas.addEventListener("mouseup",()=>drawing=false);
+canvas.addEventListener("mousemove",scratch);
 
-            if (scratched > 120) {
-                confetti({
-                    particleCount: 120,
-                    spread: 80,
-                    origin: { y: 0.6 }
-                });
-            }
+canvas.addEventListener("touchstart",()=>drawing=true);
+canvas.addEventListener("touchend",()=>drawing=false);
+canvas.addEventListener("touchmove",scratch);
 
-        }
+</script>
 
-        canvas.addEventListener("mousedown", () => drawing = true);
-        canvas.addEventListener("mouseup", () => drawing = false);
-        canvas.addEventListener("mousemove", scratch);
+<script>
 
-        canvas.addEventListener("touchstart", () => drawing = true);
-        canvas.addEventListener("touchend", () => drawing = false);
-        canvas.addEventListener("touchmove", scratch);
+function createHeart(){
 
-    </script>
+const heart=document.createElement("div");
+heart.className="heart";
+heart.innerHTML="❤️";
 
-    <script>
+heart.style.left=Math.random()*100+"vw";
+heart.style.animationDuration=(4+Math.random()*3)+"s";
 
-        function createHeart() {
+document.body.appendChild(heart);
 
-            const heart = document.createElement("div");
-            heart.className = "heart";
-            heart.innerHTML = "❤️";
+setTimeout(()=>heart.remove(),7000);
 
-            heart.style.left = Math.random() * 100 + "vw";
-            heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+}
 
-            document.body.appendChild(heart);
+setInterval(createHeart,900);
 
-            setTimeout(() => heart.remove(), 7000);
-
-        }
-
-        setInterval(createHeart, 600);
-
-    </script>
+</script>
 
 </body>
-
 </html>
