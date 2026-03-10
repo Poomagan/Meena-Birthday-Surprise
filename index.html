@@ -71,8 +71,8 @@ box-shadow:0 10px 20px rgba(0,0,0,.15);
 #game{
 display:none;
 text-align:center;
-}
-#game{
+position:relative;
+height:100vh;
 z-index:1;
 }
 
@@ -206,12 +206,15 @@ let gameActive=false
 
 function startGame(){
 
-document.getElementById("intro").style.opacity=0
+document.getElementById("intro").style.opacity = 0
 
 setTimeout(()=>{
 document.getElementById("intro").style.display="none"
 document.getElementById("game").style.display="block"
-gameActive=true
+gameActive = true
+
+setInterval(createHeart,900)
+
 },700)
 
 }
@@ -249,13 +252,11 @@ endGame()
 
 }
 
-document.body.appendChild(heart)
+document.getElementById("game").appendChild(heart)
 
 setTimeout(()=>heart.remove(),4000)
 
 }
-
-setInterval(createHeart,900)
 
 function endGame(){
 
